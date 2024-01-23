@@ -1,15 +1,12 @@
 const express = require('express');
-
 const router = express.Router();
+const userController = require('../controllers/user.controller');
+const verifyEmail = require('../middlewares/verifyEmail');
 
-router.get('/getall', (req, res) => {
-    res.send('Hello World');
-})
+router.post('/create',[verifyEmail.checkDuplicateUsernameOrEmail], userController.create);
 
+router.post('/signin', userController.signin);
 
-router.post('/create', (req, res) => {
-    res.send('Hello World');
-})
+router.patch('/passwordchange/:id', userController.passwordchange);
 
 module.exports = router;
-
