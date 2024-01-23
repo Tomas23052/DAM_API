@@ -14,7 +14,7 @@ const app = express();
 app.use(express.json());
 app.use(routes);
 
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log("Server is running");
 });
 
