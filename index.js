@@ -1,5 +1,7 @@
 require("dotenv").config();
 
+const port = process.env.PORT || 3000;
+
 const mongoString = process.env.DATABASE_URL;
 
 const express = require("express");
@@ -12,7 +14,7 @@ const app = express();
 app.use(express.json());
 app.use(routes);
 
-app.listen(8081, () => {
+app.listen(port, () => {
   console.log("Server is running");
 });
 
