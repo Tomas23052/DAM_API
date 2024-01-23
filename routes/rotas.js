@@ -9,4 +9,6 @@ router.post('/signin', userController.signin);
 
 router.patch('/passwordchange/:id', userController.passwordchange);
 
+router.get('/', userController.get);
+
 module.exports = router;

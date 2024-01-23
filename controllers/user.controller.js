@@ -70,3 +70,7 @@ exports.passwordchange = async (req, res) => {
     res.status(500).send("Não foi possível atualizar a password");
   }
 };
+
+exports.get = (req, res) => {
+ res.send("Hello World");
+}
