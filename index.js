@@ -30,6 +30,3 @@ database.once("connected", () => {
   console.log("Database connected");
 });
 
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
-});

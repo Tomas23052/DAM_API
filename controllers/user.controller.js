@@ -89,6 +89,24 @@ exports.addWaypoint = async (req, res) => {
   })
 };
 
+exports.getMarkers = async (req, res) => {
+  User.findOne({username: req.params.username})
+  .then((user) => {
+    // verifica se o user existe, se existe retorna a lista de markers
+    if (!user) {
+      return res
+        .status(404)
+        .send({ message: "Utilizador não encontrado", error: true });
+    }
+    // envia resposta com a lista de markers
+    res.status(200).send(user.markers
+    );
+  })
+  .catch((error) => {
+    res.status(500).send({ message: "Erro ao obter markers", error: true });
+  });
+};
+
 exports.passwordchange = async (req, res) => {
   try {
     const update = await User.findByIdAndUpdate(
@@ -103,5 +121,6 @@ exports.passwordchange = async (req, res) => {
 };
 
 exports.get = (req, res) => {
- res.send("Hello World");
-}
+  //hello world test
+  res.send("Hello World");
+  };

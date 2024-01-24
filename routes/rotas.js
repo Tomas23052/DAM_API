@@ -9,8 +9,12 @@ router.post('/signin', userController.signin);
 
 router.post('/addwaypoint', userController.addWaypoint);
 
+router.get('/getmarkers/:username', userController.getMarkers);
+
 router.patch('/passwordchange/:id', userController.passwordchange);
 
 router.get('/', userController.get);
+
+
 
 module.exports = router;
