@@ -11,7 +11,6 @@ router.post('/addwaypoint', userController.addWaypoint);
 
 router.patch('/passwordchange/:id', userController.passwordchange);
 
-
 router.get('/', userController.get);
 
 module.exports = router;
