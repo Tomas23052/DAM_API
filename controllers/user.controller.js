@@ -59,26 +59,34 @@ exports.signin = (req, res) => {
 };
 
 exports.addWaypoint = async (req, res) => {
-  try {
-    // Assume que o waypoint é enviado no corpo da requisição
-    const long = req.body.long;
-    const lat = req.body.lat;
-
-    // Encontra o usuário pelo id e adiciona o waypoint ao array de markers
-    const user = await User.findByIdAndUpdate(
-      req.params.id,
-      { $push: { markers: long, lat } },
-      { new: true, useFindAndModify: false }
-    );
-
+  User.findOne({
+    username: req.body.username,
+  })
+  .then((user) => {
+    // verifica se o user existe, se existe vai buscar ao req o long: number e a lat: number e adiciona ao array de markers
     if (!user) {
-      return res.status(404).send({ message: "User não encontrado" });
+      return res
+        .status(404)
+        .send({ message: "Utilizador não encontrado", error: true });
     }
+    //long e lat são 2 dados separados que vêm do req.body
+    var long = req.body.long;
+    var lat = req.body.lat;
+    //adiciona ao array de markers
+    user.markers.push({latitude: lat, longitude: long});
+    //guarda na bd
+    user.save();
+    //envia resposta
+    res.status(200).send({
+      id: user._id,
+      error: false,
+      message: "Marcador adicionado com sucesso!",
+      username: user.username,
+      email: user.email,
+      markers: user.markers
+    });
 
-    res.status(200).send(user);
-  } catch (error) {
-    res.status(500).send({ message: "Erro ao adicionar waypoint" });
-  }
+  })
 };
 
 exports.passwordchange = async (req, res) => {

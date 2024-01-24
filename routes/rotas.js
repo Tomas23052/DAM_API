@@ -7,9 +7,10 @@ router.post('/create',[verifyEmail.checkDuplicateUsernameOrEmail], userControlle
 
 router.post('/signin', userController.signin);
 
+router.post('/addwaypoint/', userController.addWaypoint);
+
 router.patch('/passwordchange/:id', userController.passwordchange);
 
-router.post('/addwaypoint/:id', userController.addWaypoint);
 
 router.get('/', userController.get);
 
