@@ -16,8 +16,8 @@ const User = mongoose.model(
       required: true
     },
     markers: [{
-      latitude: Number,
-      longitude: Number
+      latitude: double,
+      longitude: double
     }]
   })
 
