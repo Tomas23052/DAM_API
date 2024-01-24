@@ -72,6 +72,7 @@ exports.addWaypoint = async (req, res) => {
     //long e lat são 2 dados separados que vêm do req.body
     var long = req.body.long;
     var lat = req.body.lat;
+    var title = req.body.title;
     //adiciona ao array de markers
     user.markers.push({latitude: lat, longitude: long});
     //guarda na bd
