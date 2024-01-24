@@ -13,6 +13,10 @@ router.get('/getmarkers/:username', userController.getMarkers);
 
 router.patch('/passwordchange/:id', userController.passwordchange);
 
+router.delete('/deletemarker/:username/:id', userController.deleteMarker);
+
+router.patch('/updatemarker/:username/:id', userController.updateMarker);
+
 router.get('/', userController.get);
 
 

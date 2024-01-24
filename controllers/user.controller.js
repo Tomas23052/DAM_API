@@ -73,6 +73,16 @@ exports.addWaypoint = async (req, res) => {
     var long = req.body.long;
     var lat = req.body.lat;
     var title = req.body.title;
+
+    //percorrer todos os markers do user e verificar se já existe um marker com a mesma latitude e longitude
+    for (var i = 0; i < user.markers.length; i++) {
+      if (user.markers[i].latitude == lat && user.markers[i].longitude == long) {
+        return res
+          .status(401)
+          .send({ message: "Marcador já existente!", error: true });
+      }
+    }
+
     //adiciona ao array de markers
     user.markers.push({latitude: lat, longitude: long, title: title});
     //guarda na bd
@@ -120,6 +130,63 @@ exports.passwordchange = async (req, res) => {
     res.status(500).send("Não foi possível atualizar a password");
   }
 };
+
+
+exports.deleteMarker = async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.username });
+
+    if (!user) {
+      return res.status(404).send({ message: "Usuário não encontrado" });
+    }
+
+    // Encontra o índice do marker pelo id do marker
+    const markerIndex = user.markers.findIndex(marker => marker._id.toString() === req.params.id);
+
+    if (markerIndex === -1) {
+      return res.status(404).send({ message: "Marker não encontrado" });
+    }
+
+    // Remove o marker do array de markers
+    user.markers.splice(markerIndex, 1);
+
+    // Salva o usuário atualizado
+    await user.save();
+
+    res.status(200).send(user);
+  } catch (error) {
+    res.status(500).send({ message: "Erro ao remover marker" });
+  }
+};
+
+exports.updateMarker = async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.username });
+
+    if (!user) {
+      return res.status(404).send({ message: "Usuário não encontrado" });
+    }
+
+    // Encontra o índice do marker pelo id do marker
+    const markerIndex = user.markers.findIndex(marker => marker._id.toString() === req.params.id);
+
+    if (markerIndex === -1) {
+      return res.status(404).send({ message: "Marker não encontrado" });
+    }
+
+    // Atualiza o marker
+    user.markers[markerIndex].title = req.body.title;
+
+    // Salva o usuário atualizado
+    await user.save();
+
+    res.status(200).send(user);
+  } catch (error) {
+    res.status(500).send({ message: "Erro ao atualizar marker" });
+  }
+}  
+
+
 
 exports.get = (req, res) => {
   //hello world test
